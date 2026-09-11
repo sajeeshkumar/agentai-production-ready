@@ -1,6 +1,7 @@
 package inc.kodingkrafters.agents.agent.team;
 
 import inc.kodingkrafters.agents.agent.AgentLogging;
+import inc.kodingkrafters.agents.agent.PiiRedaction;
 import inc.kodingkrafters.agents.agent.mcp.CustomerScopedToolCallback;
 import inc.kodingkrafters.agents.agent.mcp.McpBackend;
 import org.slf4j.Logger;
@@ -61,7 +62,7 @@ public class TransactionAgent {
                     + "account id and any dates.") String request,
             ToolContext toolContext) {
         String customerId = Team.customerId(toolContext);
-        log.info("delegate -> TransactionAgent customer={} request={}", customerId, request);
+        log.info("delegate -> TransactionAgent customer={} request={}", customerId, PiiRedaction.redact(request));
 
         ChatResponse response = chatClient.prompt()
                 .system(SYSTEM_PROMPT)

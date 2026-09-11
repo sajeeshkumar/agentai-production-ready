@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="archify 2.17.0-dev.1">
-  <title>SecureBank Support Bot — Runtime Architecture (Iteration 5) Diagram</title>
+  <title>SecureBank Support Bot — Runtime Architecture Diagram</title>
   <script>
     // Resolve the theme before first paint so light-preference users don't
     // see a dark flash. The toolbar script below re-applies with UI state.
@@ -5081,11 +5081,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
            data-preset-badge-blueprint="BLUEPRINT / REV 01"
            data-preset-badge-editorial="EDITORIAL / FIELD NOTE">
         <div class="pulse-dot"></div>
-        <h1>SecureBank Support Bot — Runtime Architecture (Iteration 5)</h1>
+        <h1>SecureBank Support Bot — Runtime Architecture</h1>
       </div>
     </div>
 
-    <script id="archify-guided-views-data" type="application/json">[{"id":"request-path","label":"Chat request path","focus":["browser","coordinator","accounts_agent","accounts_mcp","corebank","store"],"note":"One turn from the browser through the coordinator, a specialist, its MCP server, to the system of record."},{"id":"mcp-tier","label":"Specialists and MCP servers","focus":["coordinator","accounts_agent","transaction_agent","service_agent","accounts_mcp","transaction_mcp","service_mcp"],"note":"Three specialist agents, each an MCP client of its own SSE server."},{"id":"authorization","label":"Determinism in Java","focus":["accounts_agent","service_agent","service_mcp","corebank","store"],"note":"CustomerScopedToolCallback pins the customer; CustomerAuthorization.require runs first in every endpoint."}]</script>
+    <script id="archify-guided-views-data" type="application/json">[{"id":"signed-in-path","label":"Signed-in chat request","focus":["browser","auth","ava","accountsAgent","accountsMcp","corebank","corebankData"],"note":"A session-authenticated, rate-limited request from browser to store."},{"id":"delegation","label":"Coordinator delegation","focus":["ava","accountsAgent","transactionAgent","serviceAgent"],"note":"Ava delegates to exactly one specialist per task, in-process."},{"id":"hardening","label":"Post-iteration-5 hardening","focus":["browser","auth","ava","corebank"],"note":"Session login, per-IP rate limiting, and PII-redacted logging added after iteration 5."}]</script>
 
     <script id="archify-i18n-data" type="application/json">{"locale":"en","messages":{"viewer.kind.frontend":"Frontend","viewer.kind.backend":"Backend","viewer.kind.database":"Database","viewer.kind.cloud":"Cloud","viewer.kind.security":"Security","viewer.kind.messagebus":"Message bus","viewer.kind.external":"External","viewer.kind.neutral":"Neutral","viewer.kind.node":"Node","viewer.kind.start":"Start","viewer.kind.active":"Active","viewer.kind.waiting":"Waiting","viewer.kind.decision":"Decision","viewer.kind.success":"Success","viewer.kind.failure":"Failure","viewer.toolbar.actions":"Diagram actions","viewer.theme.toggle.title":"Toggle theme (T)","viewer.theme.toggle":"Toggle color theme","viewer.theme.dark":"Dark","viewer.theme.light":"Light","viewer.preset.choose.title":"Choose visual style (S cycles)","viewer.preset.choose":"Choose visual style","viewer.preset.style":"Style","viewer.preset.menu":"Visual style","viewer.preset.identity":"Visual identity","viewer.preset.cycles":"S cycles","viewer.preset.classic":"Classic","viewer.preset.classic.short":"Classic","viewer.preset.classic.hint":"Stable technical default","viewer.preset.flow":"Signal Flow","viewer.preset.flow.short":"Flow","viewer.preset.flow.hint":"Motion-forward presentation","viewer.preset.blueprint":"Blueprint","viewer.preset.blueprint.hint":"Engineering review","viewer.preset.editorial":"Editorial","viewer.preset.editorial.hint":"Publication and launch notes","viewer.preset.badge.signalFlow":"SIGNAL FLOW","viewer.preset.badge.blueprint":"BLUEPRINT / REV 01","viewer.preset.badge.editorial":"EDITORIAL / FIELD NOTE","viewer.preset.badge.editorialPlate":"ARCHIFY / PLATE 04","viewer.preset.current":"Visual style: {style}. Choose visual style","viewer.motion.live":"Live","viewer.motion.still":"Still","viewer.motion.pause":"Pause motion","viewer.motion.resume":"Resume motion","viewer.motion.reduced":"Motion paused by reduced-motion preference","viewer.motion.hidden":"Motion paused while this page is hidden","viewer.motion.yielding":"Pause motion; currently yielding to {owner}","viewer.motion.yielding.title":"Live preview enabled · yielding to {owner}","viewer.owner.story":"the guided story","viewer.owner.chapter":"the active chapter","viewer.owner.chapterPreview":"the chapter delta preview","viewer.owner.handoff":"the chapter handoff","viewer.owner.route":"Route Probe","viewer.owner.lens":"Semantic Lens","viewer.owner.relationship":"Relationship Preview","viewer.owner.intent":"Intent Trace","viewer.owner.focus":"semantic focus","viewer.owner.legend":"legend preview","viewer.owner.reader":"reader interaction","viewer.present.enter":"Enter presentation stage","viewer.present.enter.title":"Presentation stage (F)","viewer.present.exit":"Exit presentation stage","viewer.present.exit.title":"Exit presentation stage (F or Escape)","viewer.present.present":"Present","viewer.present.exit.label":"Exit","viewer.export.button":"Export","viewer.export.button.title":"Export diagram (E)","viewer.export.diagram":"Export diagram","viewer.export.menu":"Export","viewer.export.subtitle":"Portable, clean outputs","viewer.export.share":"Share","viewer.export.shareCard":"Share Card","viewer.export.routeShareCard":"Route Share Card","viewer.export.reachShareCard":"Reach Share Card","viewer.export.copyShareCard":"Copy Share Card","viewer.export.copyDiagram":"Copy diagram","viewer.export.clipboardPng":"PNG to clipboard","viewer.export.raster":"Raster images","viewer.export.image":"Image","viewer.export.lossless":"Lossless image","viewer.export.compact":"Compact image","viewer.export.modern":"Modern image","viewer.export.vectorMotion":"Vector and motion","viewer.export.vectorMotion.heading":"Vector \u0026 motion","viewer.export.editable":"Editable vector","viewer.export.motion6s":"6s motion","viewer.export.unsupported":"Not supported by this browser","viewer.export.clipboardUnsupported":"Clipboard image write not supported by this browser","viewer.export.clipboardUnsupported.period":"Clipboard image write not supported by this browser.","viewer.export.clipboardUnsupported.short":"Clipboard image write not supported in this browser.","viewer.export.motionUnavailable":"Motion capture unavailable in this browser","viewer.export.webmUnavailable":"WebM unavailable in this browser","viewer.export.failed":"Export failed: {message}","viewer.export.unknownVariant":"Unknown Share Card variant: {variant}","viewer.export.routeRequired":"Trace a route before exporting a Route Share Card","viewer.export.reachRequired":"Trace authored reach before exporting a Reach Share Card","viewer.export.unknown":"unknown","viewer.export.routeFailed":"Route Share Card export failed: {message}","viewer.export.reachFailed":"Reach Share Card export failed: {message}","viewer.export.copyFailed":"Copy failed: {message}","viewer.export.copiedPng":"Copied PNG to clipboard","viewer.export.copiedShare":"Copied Share Card","viewer.export.downloadedShare":"Downloaded Share Card","viewer.export.downloadedRoute":"Downloaded Route Share Card","viewer.export.downloadedReach":"Downloaded Reach Share Card","viewer.export.downloadedWebm":"Downloaded WebM","viewer.export.recording":"Recording 6 seconds of motion…","viewer.export.card.routeSummary.one":"Route: {source} → {target} · {count} directed hop","viewer.export.card.routeSummary.other":"Route: {source} → {target} · {count} directed hops","viewer.export.card.reachSummary":"Authored {direction} from {origin} · {nodes} · {links} · max {hops}","viewer.export.card.node.one":"{count} node","viewer.export.card.node.other":"{count} nodes","viewer.export.card.link.one":"{count} link","viewer.export.card.link.other":"{count} links","viewer.export.card.hop.one":"{count} hop","viewer.export.card.hop.other":"{count} hops","viewer.export.card.routeBadge":"ARCHIFY · ROUTE · {hops}","viewer.export.card.reachBadge":"ARCHIFY · {direction} REACH","viewer.export.card.defaultBadge":"ARCHIFY · {preset} · {theme}","viewer.export.direction.upstream":"Upstream","viewer.export.direction.downstream":"Downstream","viewer.export.error.canvasUnavailable":"Canvas unavailable for {label}","viewer.export.error.contextUnavailable":"2D canvas context unavailable for {label}","viewer.export.error.toBlobUnavailable":"canvas.toBlob unavailable for {label}","viewer.export.error.toBlobNull":"canvas.toBlob returned no data for {label}","viewer.export.error.variantsCombined":"Share Card variants cannot be combined","viewer.export.error.viewerState":"Share Card export could not remove temporary viewer state","viewer.export.error.routeState":"Route Card export could not preserve the resolved route safely","viewer.export.error.reachState":"Reach Card export could not preserve authored reach safely","viewer.export.error.webmRequirements":"WebM motion export requires a trace animation and browser MediaRecorder support","viewer.export.error.mediaRecorder":"MediaRecorder failed","viewer.export.error.emptyWebm":"MediaRecorder produced an empty WebM","viewer.export.error.webmBackground":"SVG background could not be loaded for WebM export","viewer.guided.region":"Guided diagram views","viewer.guided.previous":"Previous guided view","viewer.guided.previous.title":"Previous guided view ([)","viewer.guided.next":"Next guided view","viewer.guided.next.title":"Next guided view (])","viewer.guided.views":"Guided views","viewer.guided.explore":"Explore this system","viewer.guided.intro":"Step through curated paths without changing the source diagram.","viewer.guided.trail":"Story trail","viewer.guided.beat":"Beat","viewer.guided.nextBeat":"Next","viewer.guided.play":"Play guided story","viewer.guided.play.title":"Play guided story (P)","viewer.guided.pause":"Pause guided story","viewer.guided.pause.title":"Pause guided story (P)","viewer.guided.replay":"Replay guided story","viewer.guided.replay.title":"Replay guided story (P)","viewer.guided.playStory":"Play story","viewer.guided.pauseStory":"Pause","viewer.guided.replayStory":"Replay story","viewer.guided.motionUnavailable":"Story playback unavailable while motion is Still","viewer.guided.enableMotion":"Switch motion to Live to play the guided story","viewer.guided.selectBeatLink":"Select a Story Beat to copy its exact link","viewer.guided.copyMoment":"Copy moment","viewer.guided.momentCopied":"Moment link copied","viewer.guided.momentCopyFailed":"Could not copy story moment link","viewer.guided.copied":"Copied","viewer.guided.copyFailed":"Copy failed","viewer.guided.showAll":"Show all","viewer.guided.showAll.aria":"Show entire diagram","viewer.guided.chapters":"Story chapters","viewer.guided.storyTrail":"Story trail for {label}: {count} beats","viewer.guided.chapter.open":"Open chapter {index} of {total}: {label}, {count} stops","viewer.guided.chapter.current":"Current chapter {index} of {total}: {label}, {count} stops","viewer.guided.chapter.selectedNodes":"{count} selected nodes","viewer.guided.chapter.stops":"{count} stops","viewer.guided.chapter.stop.one":"{count} stop","viewer.guided.chapter.stop.other":"{count} stops","viewer.guided.chapter.current.title":"{label} — current chapter, {count} stops","viewer.guided.chapter.delta.expanded":"{stay} stay, {enter} enter, {leave} leave","viewer.guided.chapter.delta.aria":"Open chapter {index} of {total}: {label}. Chapter focus delta: {delta}","viewer.guided.chapter.delta.title":"{label} — {delta} chapter focus","viewer.guided.handoff":"{from} → {to} · via {label}","viewer.guided.share.chapter":"Chapter {index} / {total}","viewer.guided.share.initial":"Chapter 01 / 01","viewer.guided.share.default":"Guided chapter","viewer.guided.state.ready":"Ready","viewer.guided.state.playing":"Playing","viewer.guided.state.settled":"Settled","viewer.guided.state.paused":"Paused","viewer.guided.state.pinned":"Pinned","viewer.guided.state.still":"Still","viewer.guided.share.step":"Step {index} / {total} · {label}","viewer.guided.share.staticMoment":"{step} · Static moment","viewer.guided.share.complete":"{count} steps complete · {note}","viewer.guided.share.settled":"Path settled for reading.","viewer.guided.share.staticPath":"{count} steps · Static path","viewer.guided.share.ready":"{count} steps · Ready","viewer.guided.share.aria":"{state} chapter {index} of {total}: {label}. {beat}. {route}","viewer.guided.beat.start":"Beat {index} / {total} · {label} · starting point","viewer.guided.beat.forward":"Beat {index} / {total} · {from} → {to}","viewer.guided.beat.reverse":"Beat {index} / {total} · {from} → {to} · reverse authored link","viewer.guided.beat.multiple":"Beat {index} / {total} · {from} ⇄ {to} · {count} authored links","viewer.guided.beat.group":"Beat {index} / {total} · {from} · {to} · grouped · no direct link","viewer.guided.beat.aria.prefix":"Story beat {index} of {total}: {label}. ","viewer.guided.beat.aria.start":"Starting point.","viewer.guided.beat.aria.forward":"From {from} through one authored forward relationship.","viewer.guided.beat.aria.reverse":"From {from}; the authored relationship points from {to} to {from}.","viewer.guided.beat.aria.multiple":"From {from} through {count} authored relationships; shown without arbitrary motion.","viewer.guided.beat.aria.group":"Grouped from {from} with no direct authored relationship.","viewer.guided.caption.start":"Starting point","viewer.guided.caption.grouped":"Grouped transition · no direct authored link","viewer.guided.caption.more":" +{count} more","viewer.guided.caption.reverse":"Reverse authored relationship","viewer.guided.caption.relationships":"{count} authored relationships","viewer.guided.caption.relationship":"Authored relationship","viewer.guided.caption.direction":"authored direction: {from} → {to}","viewer.guided.caption.starting":"Authored starting point","viewer.guided.beatLink":"Copy link to current story moment: Beat {index} of {total}: {label}","viewer.guided.noStory":"This diagram has no authored guided story.","viewer.guide.eyebrow":"Diagram guide","viewer.guide.close":"Close diagram guide","viewer.guide.inspecting":"Inspecting compiled semantics","viewer.guide.actions":"Diagram exploration actions","viewer.guide.find":"Find any node","viewer.guide.find.hint":"Search labels, responsibilities, kinds, and stable IDs.","viewer.guide.route":"Trace a route","viewer.guide.route.aria":"Trace a directed route","viewer.guide.route.hint":"Ask how two semantic nodes connect in authored direction.","viewer.guide.map":"See the whole system","viewer.guide.map.hint":"Open Semantic Radar with a live viewport and stable nodes.","viewer.guide.lens":"Compare semantic kinds","viewer.guide.lens.hint":"Count roles, reveal their traffic, and compare direct authored links.","viewer.guide.story":"Play the guided story","viewer.guide.story.hint":"Walk the authored chapters and real relationships.","viewer.guide.present":"Enter Presentation Stage","viewer.guide.present.hint":"Give the live diagram the viewport without changing export.","viewer.guide.shortcuts":"Additional keyboard shortcuts","viewer.guide.shortcut.export":"Export","viewer.guide.shortcut.theme":"Theme","viewer.guide.shortcut.style":"Style","viewer.guide.shortcut.reset":"Reset","viewer.guide.shortcut.zoomIn":"Zoom in","viewer.guide.shortcut.zoomOut":"Zoom out","viewer.guide.shortcut.close":"Close","viewer.guide.facts":"{nodes} · {relationships} · {views}","viewer.guide.fact.node.one":"{count} semantic node","viewer.guide.fact.node.other":"{count} semantic nodes","viewer.guide.fact.relationship.one":"{count} relationship","viewer.guide.fact.relationship.other":"{count} relationships","viewer.guide.fact.view.one":"{count} guided view","viewer.guide.fact.view.other":"{count} guided views","viewer.guide.story.available.one":"Walk {count} authored chapter and its real relationships.","viewer.guide.story.available.other":"Walk {count} authored chapters and their real relationships.","viewer.guide.story.unavailable":"No authored guided story in this diagram.","viewer.guide.open":"Open diagram guide","viewer.guide.noStory":"This diagram has no authored guided story.","viewer.finder.title":"Find a node","viewer.finder.close":"Close node finder","viewer.finder.placeholder":"Search labels or IDs","viewer.finder.search":"Search diagram nodes","viewer.finder.results":"Diagram nodes","viewer.finder.empty":"No matching nodes","viewer.finder.result.focus":"Focus {label}","viewer.finder.result.routeStart":"Choose {label} as route start","viewer.finder.result.routeTarget":"Choose {label} as route destination, {links}","viewer.finder.status.empty":"No matching nodes","viewer.finder.status.count.one":"{count} matching node","viewer.finder.status.count.other":"{count} matching nodes","viewer.finder.noun.nodes":"nodes","viewer.finder.link.one":"{count} link","viewer.finder.link.other":"{count} links","viewer.finder.result.focus.one":"Focus {label}, {count} related connection","viewer.finder.result.focus.other":"Focus {label}, {count} related connections","viewer.finder.status.filtered":"{visible} of {available} {noun}","viewer.finder.status.all":"{available} {noun}","viewer.passport.eyebrow":"Semantic passport","viewer.passport.metadata":"Node metadata","viewer.passport.evidence":"Verified source evidence","viewer.passport.verified":"Verified source","viewer.passport.verificationScope":"Verified against local Git at the pinned revision. Remote access has not been checked.","viewer.passport.reach":"Authored reach","viewer.passport.reach.trace":"Trace authored reachability","viewer.passport.upstream":"Upstream","viewer.passport.downstream":"Downstream","viewer.passport.upstream.trace":"Trace upstream authored reachability","viewer.passport.downstream.trace":"Trace downstream authored reachability","viewer.passport.close":"Close semantic passport","viewer.passport.copy":"Copy link","viewer.passport.copy.focus":"Copy link to focused node","viewer.passport.relations":"Relations","viewer.passport.relations.show":"Show connected relationships","viewer.passport.relations.hide":"Hide connected relationships","viewer.passport.relations.list":"Connected relationships","viewer.passport.copyRelation":"Copy relation","viewer.passport.copyNode":"Copy node","viewer.passport.copyPinned":"Copy link to pinned relationship","viewer.passport.copySource":"Copy link to source node","viewer.passport.copy.focused.success":"Focused node link copied","viewer.passport.copy.pinned.success":"Pinned relationship link copied","viewer.passport.copy.focused.failed":"Could not copy focused node link","viewer.passport.copy.pinned.failed":"Could not copy pinned relationship link","viewer.passport.relationship.none":"No connected relationships","viewer.passport.relationship.count.one":"{count} relation","viewer.passport.relationship.count.other":"{count} relations","viewer.passport.relationship.show.one":"Show {count} connected relationship","viewer.passport.relationship.show.other":"Show {count} connected relationships","viewer.passport.relationship.summary":"{out} outgoing · {in} incoming{loops}","viewer.passport.relationship.loops":" · {count} loop","viewer.passport.relationship.explorer":"Direct relationship explorer","viewer.passport.relationship.help":"Use arrow keys to explore relationships. Press Enter or Space to pin details; Escape clears.","viewer.passport.relationship.loopsBack":"loops back","viewer.passport.relationship.connectsTo":"connects to","viewer.passport.relationship.connectsFrom":"connects from","viewer.passport.relationship.pinned":"Pinned relationship · {from} → {to} · {label}","viewer.passport.relationship.inspect":"Inspect relationship {index} of {total}: {from} to {to}, {label}. Press Enter for details.","viewer.passport.relationship.group.out":"Outgoing","viewer.passport.relationship.group.in":"Incoming","viewer.passport.relationship.group.loop":"Self loops","viewer.passport.relationship.row":"{group}: {relationship}, {neighbor}","viewer.passport.relationship.direction.out":"OUT →","viewer.passport.relationship.direction.in":"← IN","viewer.passport.relationship.direction.loop":"LOOP","viewer.passport.sourceCount.one":"{count} verified source reference","viewer.passport.sourceCount.other":"{count} verified source references","viewer.passport.sourceMarker":"SRC","viewer.passport.beacon.one":"{count} verified source; focus this node to inspect","viewer.passport.beacon.other":"{count} verified sources; focus this node to inspect","viewer.passport.repository.open":"Open verified repository revision {revision}","viewer.passport.source.open":"Open verified source {path} at revision {revision}","viewer.passport.source.openLink":"Open ↗","viewer.passport.reach.upstream.one":"Trace {count} upstream authored node","viewer.passport.reach.upstream.other":"Trace {count} upstream authored nodes","viewer.passport.reach.downstream.one":"Trace {count} downstream authored node","viewer.passport.reach.downstream.other":"Trace {count} downstream authored nodes","viewer.passport.reach.noUpstream":"No upstream authored nodes","viewer.passport.reach.noDownstream":"No downstream authored nodes","viewer.passport.reach.status":"{direction} · {nodes} nodes · {links} links · max {hops} hops","viewer.route.eyebrow":"Route probe","viewer.route.start":"Choose a start node","viewer.route.start.find":"Find start","viewer.route.start.find.aria":"Find a route start","viewer.route.copy":"Copy link","viewer.route.copy.aria":"Copy link to traced route","viewer.route.clear":"Clear","viewer.route.clear.aria":"Clear route probe","viewer.route.traced":"Traced route","viewer.route.pickTwo":"Pick two semantic nodes on the diagram","viewer.route.pickOne":"Pick a semantic node on the diagram","viewer.route.controls":"Route journey controls","viewer.route.previous":"Previous route position","viewer.route.play":"Play route journey","viewer.route.pause":"Pause route journey","viewer.route.replay":"Replay route journey","viewer.route.next":"Next route position","viewer.route.journey":"Journey","viewer.route.pause.label":"Pause","viewer.route.replay.label":"Replay","viewer.route.overview":"Overview","viewer.route.overview.aria":"Show complete route overview","viewer.route.instructions":"Choose the source, then the destination. Direction matters.","viewer.route.destination":"Choose a destination from {label}","viewer.route.destination.find":"Find target","viewer.route.destination.find.aria":"Find a reachable route destination","viewer.route.differentDestination":"Choose a different destination","viewer.route.distinct":"A route needs two distinct semantic nodes.","viewer.route.unreachable":"No directed route to {label}","viewer.route.unreachable.detail":"{target} is not reachable from {source}. Pick a highlighted destination.","viewer.route.start.instructions":"Select the source. The next step will reveal only directed destinations.","viewer.route.copy.success":"Traced route link copied","viewer.route.copy.failed":"Could not copy traced route link","viewer.route.position":"Route position {index} of {total}: {label}","viewer.route.step":"Step {index} of {total} · {phase} · {label}","viewer.route.motionRequired":"Automatic journey requires Live motion","viewer.route.trigger.clear":"Clear traced route","viewer.route.overview.status":"{nodes} · {hops} · shortest authored route","viewer.route.overview.node.one":"{count} node","viewer.route.overview.node.other":"{count} nodes","viewer.route.overview.hop.one":"{count} directed hop","viewer.route.overview.hop.other":"{count} directed hops","viewer.route.phase.playing":"Playing","viewer.route.phase.complete":"Complete","viewer.route.phase.inspecting":"Inspecting","viewer.route.destination.count.one":"{count} directed destination available. Pick a highlighted node.","viewer.route.destination.count.other":"{count} directed destinations available. Pick a highlighted node.","viewer.route.noOutgoing":"No outgoing route starts here. Clear and choose another source.","viewer.route.result.title":"{source} to {target}","viewer.route.finder.source.title":"Choose route start","viewer.route.finder.source.placeholder":"Search route sources","viewer.route.finder.source.empty":"No matching route sources","viewer.route.finder.source.results":"Nodes that can start a route","viewer.route.finder.source.noun":"route sources","viewer.route.finder.source.badge":"start","viewer.route.finder.target.title":"Destination from {label}","viewer.route.finder.target.placeholder":"Search reachable destinations","viewer.route.finder.target.empty":"No matching reachable destinations","viewer.route.finder.target.results":"Reachable route destinations","viewer.route.finder.target.noun":"reachable destinations","viewer.route.hop.one":"{count} hop","viewer.route.hop.other":"{count} hops","viewer.lens.eyebrow":"Semantic lens","viewer.lens.title":"Compare system roles","viewer.lens.close":"Close semantic lens","viewer.lens.instruction":"Choose up to two semantic kinds. One reveals its real traffic; two compare only direct authored relationships.","viewer.lens.kinds":"Semantic kinds","viewer.lens.choose":"Choose a kind to inspect its nodes and touching relationships.","viewer.lens.copy":"Copy link to semantic lens","viewer.lens.clear":"Clear semantic lens","viewer.lens.open":"Open semantic lens","viewer.lens.openActive":"Open active semantic lens","viewer.lens.legend":"Semantic legend","viewer.lens.legend.inspect.one":"Inspect {label}, {count} node","viewer.lens.legend.inspect.other":"Inspect {label}, {count} nodes","viewer.lens.kind.count.one":"{label}, {count} node","viewer.lens.kind.count.other":"{label}, {count} nodes","viewer.lens.compare.one":"{first} → {second}: {forward} · {second} → {first}: {reverse} · {count} direct relationship","viewer.lens.compare.other":"{first} → {second}: {forward} · {second} → {first}: {reverse} · {count} direct relationships","viewer.lens.single":"{nodes} · {relationships} · connected peers remain visible","viewer.lens.node.one":"{count} {label} node","viewer.lens.node.other":"{count} {label} nodes","viewer.lens.relationship.one":"{count} touching relationship","viewer.lens.relationship.other":"{count} touching relationships","viewer.radar.title":"Semantic radar","viewer.radar.building":"Building overview","viewer.radar.openFull":"Open full semantic radar","viewer.radar.open":"Open radar","viewer.radar.close":"Close semantic radar","viewer.radar.surface":"Diagram overview. Click a node to focus it, or use arrow keys to pan.","viewer.radar.click":"Click node","viewer.radar.drag":"Drag to pan","viewer.radar.space":"Semantic radar needs more MAP space.","viewer.radar.nodes":"Semantic diagram radar nodes","viewer.radar.focus":"Focus {label} from Semantic Radar","viewer.radar.status":"{count} nodes · {viewport}","viewer.radar.fullMap":"{count} nodes · full map","viewer.radar.compacted":"Radar compacted to avoid covering the Semantic Passport or MAP controls.","viewer.radar.cancelWaiting":"Cancel semantic radar waiting for more MAP space","viewer.radar.needsSpace":"Semantic radar needs more visible MAP space","viewer.radar.viewport.full":"full map","viewer.radar.viewport.width":"{percent}% width","viewer.radar.viewport.scale":"{percent}% viewport","viewer.nav.controls":"Diagram view controls","viewer.nav.route":"Trace a directed route","viewer.nav.route.title":"Trace route (R)","viewer.nav.route.short":"PATH","viewer.nav.radar":"Open semantic radar","viewer.nav.radar.title":"Semantic radar (M)","viewer.nav.radar.short":"MAP","viewer.nav.lens":"Open semantic lens","viewer.nav.lens.title":"Semantic lens (L)","viewer.nav.lens.short":"LENS","viewer.nav.find":"Find a node","viewer.nav.find.title":"Find a node (/)","viewer.nav.guide":"Open diagram guide","viewer.nav.guide.title":"Diagram guide (?)","viewer.nav.zoomOut":"Zoom out","viewer.nav.zoomOut.title":"Zoom out (-)","viewer.nav.reset":"Reset diagram view","viewer.nav.reset.title":"Reset view (0)","viewer.nav.read":"READ","viewer.nav.zoomIn":"Zoom in","viewer.nav.zoomIn.title":"Zoom in (+)","viewer.nav.camera":"{hint}. Reset diagram view","viewer.nav.camera.title":"{semantic}{hint} · reset view (0)","viewer.nav.camera.semantic":"Semantic camera active · ","viewer.nav.level.map":"MAP","viewer.nav.level.read":"READ","viewer.nav.level.full":"FULL","viewer.nav.level.auto":"AUTO","viewer.nav.detail.map":"Zoom in to reveal relationship labels and node context","viewer.nav.detail.read":"Zoom in again to reveal tags and annotations","viewer.nav.detail.full":"Full diagram detail","viewer.intent.summary":"{label}. {out} outgoing, {in} incoming{loops}. {total} connections. Press Enter for details.","viewer.intent.loops":", {count} self loop","viewer.common.copied":"Copied","viewer.common.copyFailed":"Copy failed","viewer.common.copyLink":"Copy link","viewer.common.clear":"Clear","viewer.common.close":"Close"}}</script>
     <div class="guided-views no-print" id="guided-views" hidden aria-label="Guided diagram views">
@@ -5130,8 +5130,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / PLATE 04">
-      <svg viewBox="0 0 1330 500" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
-        <title id="archify-diagram-title">SecureBank Support Bot — Runtime Architecture (Iteration 5)</title>
+      <svg viewBox="0 0 1375 578" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
+        <title id="archify-diagram-title">SecureBank Support Bot — Runtime Architecture</title>
         <desc id="archify-diagram-description">An architecture diagram generated by Archify.</desc>
         <!-- Definitions -->
         <defs>
@@ -5156,200 +5156,223 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <rect width="100%" height="100%" fill="url(#grid)" />
 
         <!-- Boundaries (behind everything) -->
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="0" data-composition-frame-label="bot process :8080" x="180" y="132" width="540" height="360" rx="12" class="c-region" stroke-width="1"/>
-
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="1" data-composition-frame-label="MCP servers · SSE" x="765" y="128" width="285" height="366" rx="12" class="c-region" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="security-group" data-composition-frame-id="0" data-composition-frame-label="bot :8080" x="220" y="290" width="450" height="114" rx="8" class="c-security-group" stroke-width="1"/>
 
         <!-- Connection paths (before components for correct z-order) -->
-        <path data-edge-from="browser" data-edge-to="coordinator" data-edge-key="0" data-edge-id="browser-chat" data-composition-points="160,313;210,313" d="M 160 313 L 210 313" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="coordinator" data-edge-to="llm" data-edge-label="chat + tool-calling loop" data-edge-key="1" data-edge-id="coordinator-llm" data-composition-points="312.5,276;312.5,102" d="M 312.5 276 L 312.5 102" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="coordinator" data-edge-to="accounts_agent" data-edge-label="delegates to" data-edge-key="2" data-edge-id="delegate-accounts" data-composition-points="415,308;462.5,308;462.5,193;510,193" d="M 415 308 L 454.5 308 Q 462.5 308 462.5 300 L 462.5 201 Q 462.5 193 470.5 193 L 510 193" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="coordinator" data-edge-to="transaction_agent" data-edge-key="3" data-edge-id="delegate-transaction" data-composition-points="415,322;510,322" d="M 415 322 L 510 322" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="coordinator" data-edge-to="service_agent" data-edge-key="4" data-edge-id="delegate-service" data-composition-points="415,336;462.5,336;462.5,441;510,441" d="M 415 336 L 454.5 336 Q 462.5 336 462.5 344 L 462.5 433 Q 462.5 441 470.5 441 L 510 441" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="accounts_agent" data-edge-to="accounts_mcp" data-edge-label="MCP over SSE" data-edge-key="5" data-edge-id="accounts-mcp-call" data-composition-points="690,193;795,193" d="M 690 193 L 795 193" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="transaction_agent" data-edge-to="transaction_mcp" data-edge-key="6" data-edge-id="transaction-mcp-call" data-composition-points="690,317;795,317" d="M 690 317 L 795 317" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="service_agent" data-edge-to="service_mcp" data-edge-key="7" data-edge-id="service-mcp-call" data-composition-points="690,441;795,441" d="M 690 441 L 795 441" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="accounts_mcp" data-edge-to="corebank" data-edge-label="HTTP" data-edge-key="8" data-edge-id="accounts-http" data-composition-points="1020,192;1060,192;1060,270;1100,270" d="M 1020 192 L 1052 192 Q 1060 192 1060 200 L 1060 262 Q 1060 270 1068 270 L 1100 270" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="transaction_mcp" data-edge-to="corebank" data-edge-key="9" data-edge-id="transaction-http" data-composition-points="1020,316;1060,316;1060,284;1100,284" d="M 1020 316 L 1052 316 Q 1060 316 1060 308 L 1060 292 Q 1060 284 1068 284 L 1100 284" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="service_mcp" data-edge-to="corebank" data-edge-key="10" data-edge-id="service-http" data-composition-points="1020,440;1060,440;1060,298;1100,298" d="M 1020 440 L 1052 440 Q 1060 440 1060 432 L 1060 306 Q 1060 298 1068 298 L 1100 298" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="corebank" data-edge-to="store" data-edge-label="read / write" data-edge-key="11" data-edge-id="corebank-store" data-composition-points="1200,328;1200,388" d="M 1200 328 L 1200 388" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="browser" data-edge-to="auth" data-edge-label="POST /login" data-edge-key="0" data-edge-id="login" data-composition-points="170,352;250,352" d="M 170 352 L 250 352" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
+        <path data-edge-from="auth" data-edge-to="ava" data-edge-label="session + X-XSRF-TOKEN" data-edge-key="1" data-edge-id="auth-to-ava" data-composition-points="400,352;480,352" d="M 400 352 L 480 352" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="ava" data-edge-to="accountsAgent" data-edge-label="in-proc tool" data-edge-key="2" data-edge-id="ava-to-accounts" data-composition-points="560,320;560,296;691,296;691,220;715,220" d="M 560 320 L 560 304 Q 560 296 568 296 L 683 296 Q 691 296 691 288 L 691 228 Q 691 220 699 220 L 715 220" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="ava" data-edge-to="transactionAgent" data-edge-label="in-proc tool" data-edge-key="3" data-edge-id="ava-to-transaction" data-composition-points="640,352;664,352;664,368;691,368;691,350;715,350" d="M 640 352 L 656 352 Q 664 352 664 360 L 664 360 Q 664 368 672 368 L 683 368 Q 691 368 691 360 L 691 358 Q 691 350 699 350 L 715 350" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="ava" data-edge-to="serviceAgent" data-edge-label="in-proc tool" data-edge-key="4" data-edge-id="ava-to-service" data-composition-points="560,384;560,408;691,408;691,480;715,480" d="M 560 384 L 560 400 Q 560 408 568 408 L 683 408 Q 691 408 691 416 L 691 472 Q 691 480 699 480 L 715 480" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="accountsAgent" data-edge-to="accountsMcp" data-edge-label="MCP / SSE" data-edge-key="5" data-edge-id="accounts-to-mcp" data-composition-points="865,220;945,220" d="M 865 220 L 945 220" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="transactionAgent" data-edge-to="transactionMcp" data-edge-label="MCP / SSE" data-edge-key="6" data-edge-id="transaction-to-mcp" data-composition-points="865,350;945,350" d="M 865 350 L 945 350" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="serviceAgent" data-edge-to="serviceMcp" data-edge-label="MCP / SSE" data-edge-key="7" data-edge-id="service-to-mcp" data-composition-points="865,480;945,480" d="M 865 480 L 945 480" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="accountsMcp" data-edge-to="corebank" data-edge-label="HTTP, X-Customer-Id" data-edge-key="8" data-edge-id="accounts-mcp-to-corebank" data-composition-points="1105,220;1255,220;1255,320" d="M 1105 220 L 1247 220 Q 1255 220 1255 228 L 1255 320" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="transactionMcp" data-edge-to="corebank" data-edge-label="HTTP, X-Customer-Id" data-edge-key="9" data-edge-id="transaction-mcp-to-corebank" data-composition-points="1105,350;1129,350;1129,368;1151,368;1151,352;1175,352" d="M 1105 350 L 1121 350 Q 1129 350 1129 358 L 1129 360 Q 1129 368 1137 368 L 1143 368 Q 1151 368 1151 360 L 1151 360 Q 1151 352 1159 352 L 1175 352" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="serviceMcp" data-edge-to="corebank" data-edge-label="HTTP, X-Customer-Id" data-edge-key="10" data-edge-id="service-mcp-to-corebank" data-composition-points="1105,480;1129,480;1129,408;1248,408;1248,384" d="M 1105 480 L 1121 480 Q 1129 480 1129 472 L 1129 416 Q 1129 408 1137 408 L 1240 408 Q 1248 408 1248 400 L 1248 384" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="corebank" data-edge-to="corebankData" data-edge-key="11" data-edge-id="corebank-to-data" data-composition-points="1262,384;1262,450" d="M 1262 384 L 1262 450" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
 
         <!-- Components -->
-        <g id="node-browser" data-node-id="browser" data-node-label="Chat UI" tabindex="0" role="button" aria-label="Focus Chat UI, demo customer selector, Architecture component" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="demo customer selector" data-node-tag="browser" data-node-context="Architecture component">
-          <title>Chat UI · demo customer selector · Architecture component · browser</title>
-          <rect x="30" y="278" width="130" height="70" rx="6" class="c-mask"/>
-          <rect x="30" y="278" width="130" height="70" rx="6" class="c-frontend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(36 284) scale(0.6875)">
-            <rect x="2" y="3" width="12" height="10" rx="2"/>
-            <path d="M2 6.5h12"/>
-            <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
-            <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
-          </g>
-          <text data-node-label="" data-detail-anchor="" x="95" y="311" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Chat UI</text>
-        <text data-detail="context" x="95" y="327" class="t-muted" font-size="9" text-anchor="middle">demo customer selector</text>
-        <text data-detail="fine" x="95" y="340" class="t-frontend" font-size="7" text-anchor="middle">browser</text>
-        </g>
-
-        <g id="node-llm" data-node-id="llm" data-node-label="OpenRouter LLM" tabindex="0" role="button" aria-label="Focus OpenRouter LLM, OpenAI-compatible API, Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="OpenAI-compatible API" data-node-tag="shared ChatClient" data-node-context="Architecture component">
-          <title>OpenRouter LLM · OpenAI-compatible API · Architecture component · shared ChatClient</title>
-          <rect x="210" y="40" width="205" height="62" rx="6" class="c-mask"/>
-          <rect x="210" y="40" width="205" height="62" rx="6" class="c-external" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(216 46) scale(0.6875)">
+        <g id="node-browser" data-node-id="browser" data-node-label="Browser" tabindex="0" role="button" aria-label="Focus Browser, Chat UI, Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="Chat UI" data-node-context="Architecture component">
+          <title>Browser · Chat UI · Architecture component</title>
+          <rect x="40" y="320" width="130" height="64" rx="6" class="c-mask"/>
+          <rect x="40" y="320" width="130" height="64" rx="6" class="c-external" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(46 326) scale(0.6875)">
             <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
             <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="312.5" y="69" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">OpenRouter LLM</text>
-        <text data-detail="context" x="312.5" y="85" class="t-muted" font-size="9" text-anchor="middle">OpenAI-compatible API</text>
-        <text data-detail="fine" x="312.5" y="94" class="t-external" font-size="7" text-anchor="middle">shared ChatClient</text>
+          <text data-node-label="" data-detail-anchor="" x="105" y="350" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Browser</text>
+        <text data-detail="context" x="105" y="366" class="t-muted" font-size="9" text-anchor="middle">Chat UI</text>
         </g>
 
-        <g id="node-coordinator" data-node-id="coordinator" data-node-label="Coordinator Agent “Ava”" tabindex="0" role="button" aria-label="Focus Coordinator Agent “Ava”, prompt + per-conversation memory, bot process :8080" aria-pressed="false" data-node-kind="backend" data-node-sublabel="prompt + per-conversation memory" data-node-tag="bot :8080" data-node-context="bot process :8080">
-          <title>Coordinator Agent “Ava” · prompt + per-conversation memory · bot process :8080 · bot :8080</title>
-          <rect x="210" y="276" width="205" height="92" rx="6" class="c-mask"/>
-          <rect x="210" y="276" width="205" height="92" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(216 282) scale(0.6875)">
+        <g id="node-auth" data-node-id="auth" data-node-label="Spring Security" tabindex="0" role="button" aria-label="Focus Spring Security, session + CSRF login, bot :8080" aria-pressed="false" data-node-kind="security" data-node-sublabel="session + CSRF login" data-node-tag="3 demo customers" data-node-context="bot :8080">
+          <title>Spring Security · session + CSRF login · bot :8080 · 3 demo customers</title>
+          <rect x="250" y="320" width="150" height="64" rx="6" class="c-mask"/>
+          <rect x="250" y="320" width="150" height="64" rx="6" class="c-security" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(256 326) scale(0.6875)">
+            <path d="M8 2.2 13 4v3.5c0 3.1-1.8 5.4-5 6.5-3.2-1.1-5-3.4-5-6.5V4Z"/>
+            <path d="m5.8 8 1.5 1.5 3-3"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="325" y="350" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Spring Security</text>
+        <text data-detail="context" x="325" y="366" class="t-muted" font-size="9" text-anchor="middle">session + CSRF login</text>
+        <text data-detail="fine" x="325" y="376" class="t-security" font-size="7" text-anchor="middle">3 demo customers</text>
+        </g>
+
+        <g id="node-ava" data-node-id="ava" data-node-label="CoordinatorAgent &quot;Ava&quot;" tabindex="0" role="button" aria-label="Focus CoordinatorAgent &quot;Ava&quot;, bot :8080, bot :8080" aria-pressed="false" data-node-kind="backend" data-node-sublabel="bot :8080" data-node-tag="rate-limited: 429" data-node-context="bot :8080">
+          <title>CoordinatorAgent &quot;Ava&quot; · bot :8080 · bot :8080 · rate-limited: 429</title>
+          <rect x="480" y="320" width="160" height="64" rx="6" class="c-mask"/>
+          <rect x="480" y="320" width="160" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(486 326) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="312.5" y="320" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Coordinator Agent “Ava”</text>
-        <text data-detail="context" x="312.5" y="336" class="t-muted" font-size="9" text-anchor="middle">prompt + per-conversation memory</text>
-        <text data-detail="fine" x="312.5" y="360" class="t-backend" font-size="7" text-anchor="middle">bot :8080</text>
+          <text data-node-label="" data-detail-anchor="" x="560" y="350" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">CoordinatorAgent &quot;Ava&quot;</text>
+        <text data-detail="context" x="560" y="366" class="t-muted" font-size="9" text-anchor="middle">bot :8080</text>
+        <text data-detail="fine" x="560" y="376" class="t-backend" font-size="7" text-anchor="middle">rate-limited: 429</text>
         </g>
 
-        <g id="node-accounts_agent" data-node-id="accounts_agent" data-node-label="Accounts Agent" tabindex="0" role="button" aria-label="Focus Accounts Agent, balance enquiry, bot process :8080" aria-pressed="false" data-node-kind="backend" data-node-sublabel="balance enquiry" data-node-context="bot process :8080">
-          <title>Accounts Agent · balance enquiry · bot process :8080</title>
-          <rect x="510" y="162" width="180" height="62" rx="6" class="c-mask"/>
-          <rect x="510" y="162" width="180" height="62" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(516 168) scale(0.6875)">
+        <g id="node-accountsAgent" data-node-id="accountsAgent" data-node-label="AccountsAgent" tabindex="0" role="button" aria-label="Focus AccountsAgent, MCP client, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="MCP client" data-node-context="Architecture component">
+          <title>AccountsAgent · MCP client · Architecture component</title>
+          <rect x="715" y="190" width="150" height="60" rx="6" class="c-mask"/>
+          <rect x="715" y="190" width="150" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(721 196) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="600" y="191" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Accounts Agent</text>
-        <text data-detail="context" x="600" y="207" class="t-muted" font-size="9" text-anchor="middle">balance enquiry</text>
+          <text data-node-label="" data-detail-anchor="" x="790" y="218" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">AccountsAgent</text>
+        <text data-detail="context" x="790" y="234" class="t-muted" font-size="9" text-anchor="middle">MCP client</text>
         </g>
 
-        <g id="node-transaction_agent" data-node-id="transaction_agent" data-node-label="Transaction Agent" tabindex="0" role="button" aria-label="Focus Transaction Agent, transactions, statements, bot process :8080" aria-pressed="false" data-node-kind="backend" data-node-sublabel="transactions, statements" data-node-context="bot process :8080">
-          <title>Transaction Agent · transactions, statements · bot process :8080</title>
-          <rect x="510" y="286" width="180" height="62" rx="6" class="c-mask"/>
-          <rect x="510" y="286" width="180" height="62" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(516 292) scale(0.6875)">
+        <g id="node-transactionAgent" data-node-id="transactionAgent" data-node-label="TransactionAgent" tabindex="0" role="button" aria-label="Focus TransactionAgent, MCP client, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="MCP client" data-node-context="Architecture component">
+          <title>TransactionAgent · MCP client · Architecture component</title>
+          <rect x="715" y="320" width="150" height="60" rx="6" class="c-mask"/>
+          <rect x="715" y="320" width="150" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(721 326) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="600" y="315" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Transaction Agent</text>
-        <text data-detail="context" x="600" y="331" class="t-muted" font-size="9" text-anchor="middle">transactions, statements</text>
+          <text data-node-label="" data-detail-anchor="" x="790" y="348" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">TransactionAgent</text>
+        <text data-detail="context" x="790" y="364" class="t-muted" font-size="9" text-anchor="middle">MCP client</text>
         </g>
 
-        <g id="node-service_agent" data-node-id="service_agent" data-node-label="Service Agent" tabindex="0" role="button" aria-label="Focus Service Agent, profile &amp; servicing, bot process :8080" aria-pressed="false" data-node-kind="backend" data-node-sublabel="profile &amp; servicing" data-node-context="bot process :8080">
-          <title>Service Agent · profile &amp; servicing · bot process :8080</title>
-          <rect x="510" y="410" width="180" height="62" rx="6" class="c-mask"/>
-          <rect x="510" y="410" width="180" height="62" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(516 416) scale(0.6875)">
+        <g id="node-serviceAgent" data-node-id="serviceAgent" data-node-label="ServiceAgent" tabindex="0" role="button" aria-label="Focus ServiceAgent, MCP client, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="MCP client" data-node-context="Architecture component">
+          <title>ServiceAgent · MCP client · Architecture component</title>
+          <rect x="715" y="450" width="150" height="60" rx="6" class="c-mask"/>
+          <rect x="715" y="450" width="150" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(721 456) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="600" y="439" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Service Agent</text>
-        <text data-detail="context" x="600" y="455" class="t-muted" font-size="9" text-anchor="middle">profile &amp; servicing</text>
+          <text data-node-label="" data-detail-anchor="" x="790" y="478" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">ServiceAgent</text>
+        <text data-detail="context" x="790" y="494" class="t-muted" font-size="9" text-anchor="middle">MCP client</text>
         </g>
 
-        <g id="node-accounts_mcp" data-node-id="accounts_mcp" data-node-label="accounts-mcp-server" tabindex="0" role="button" aria-label="Focus accounts-mcp-server, balance_enquiry, MCP servers · SSE" aria-pressed="false" data-node-kind="backend" data-node-sublabel="balance_enquiry" data-node-tag=":8091" data-node-context="MCP servers · SSE">
-          <title>accounts-mcp-server · balance_enquiry · MCP servers · SSE · :8091</title>
-          <rect x="795" y="158" width="225" height="68" rx="6" class="c-mask"/>
-          <rect x="795" y="158" width="225" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(801 164) scale(0.6875)">
+        <g id="node-accountsMcp" data-node-id="accountsMcp" data-node-label="accounts-mcp-server" tabindex="0" role="button" aria-label="Focus accounts-mcp-server, :8091 SSE, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel=":8091 SSE" data-node-context="Architecture component">
+          <title>accounts-mcp-server · :8091 SSE · Architecture component</title>
+          <rect x="945" y="190" width="160" height="60" rx="6" class="c-mask"/>
+          <rect x="945" y="190" width="160" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(951 196) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="907.5" y="190" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">accounts-mcp-server</text>
-        <text data-detail="context" x="907.5" y="206" class="t-muted" font-size="9" text-anchor="middle">balance_enquiry</text>
-        <text data-detail="fine" x="907.5" y="218" class="t-backend" font-size="7" text-anchor="middle">:8091</text>
+          <text data-node-label="" data-detail-anchor="" x="1025" y="218" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">accounts-mcp-server</text>
+        <text data-detail="context" x="1025" y="234" class="t-muted" font-size="9" text-anchor="middle">:8091 SSE</text>
         </g>
 
-        <g id="node-transaction_mcp" data-node-id="transaction_mcp" data-node-label="transaction-mcp-server" tabindex="0" role="button" aria-label="Focus transaction-mcp-server, transaction_details, statement_request, MCP servers · SSE" aria-pressed="false" data-node-kind="backend" data-node-sublabel="transaction_details, statement_request" data-node-tag=":8092" data-node-context="MCP servers · SSE">
-          <title>transaction-mcp-server · transaction_details, statement_request · MCP servers · SSE · :8092</title>
-          <rect x="795" y="282" width="225" height="68" rx="6" class="c-mask"/>
-          <rect x="795" y="282" width="225" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(801 288) scale(0.6875)">
+        <g id="node-transactionMcp" data-node-id="transactionMcp" data-node-label="transaction-mcp-server" tabindex="0" role="button" aria-label="Focus transaction-mcp-server, :8092 SSE, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel=":8092 SSE" data-node-context="Architecture component">
+          <title>transaction-mcp-server · :8092 SSE · Architecture component</title>
+          <rect x="945" y="320" width="160" height="60" rx="6" class="c-mask"/>
+          <rect x="945" y="320" width="160" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(951 326) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="907.5" y="314" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">transaction-mcp-server</text>
-        <text data-detail="context" x="907.5" y="330" class="t-muted" font-size="9" text-anchor="middle">transaction_details, statement_request</text>
-        <text data-detail="fine" x="907.5" y="342" class="t-backend" font-size="7" text-anchor="middle">:8092</text>
+          <text data-node-label="" data-detail-anchor="" x="1025" y="348" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">transaction-mcp-server</text>
+        <text data-detail="context" x="1025" y="364" class="t-muted" font-size="9" text-anchor="middle">:8092 SSE</text>
         </g>
 
-        <g id="node-service_mcp" data-node-id="service_mcp" data-node-label="service-mcp-server" tabindex="0" role="button" aria-label="Focus service-mcp-server, 4 service capabilities, MCP servers · SSE" aria-pressed="false" data-node-kind="backend" data-node-sublabel="4 service capabilities" data-node-tag=":8093" data-node-context="MCP servers · SSE">
-          <title>service-mcp-server · 4 service capabilities · MCP servers · SSE · :8093</title>
-          <rect x="795" y="406" width="225" height="68" rx="6" class="c-mask"/>
-          <rect x="795" y="406" width="225" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(801 412) scale(0.6875)">
+        <g id="node-serviceMcp" data-node-id="serviceMcp" data-node-label="service-mcp-server" tabindex="0" role="button" aria-label="Focus service-mcp-server, :8093 SSE, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel=":8093 SSE" data-node-context="Architecture component">
+          <title>service-mcp-server · :8093 SSE · Architecture component</title>
+          <rect x="945" y="450" width="160" height="60" rx="6" class="c-mask"/>
+          <rect x="945" y="450" width="160" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(951 456) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="907.5" y="438" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">service-mcp-server</text>
-        <text data-detail="context" x="907.5" y="454" class="t-muted" font-size="9" text-anchor="middle">4 service capabilities</text>
-        <text data-detail="fine" x="907.5" y="466" class="t-backend" font-size="7" text-anchor="middle">:8093</text>
+          <text data-node-label="" data-detail-anchor="" x="1025" y="478" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">service-mcp-server</text>
+        <text data-detail="context" x="1025" y="494" class="t-muted" font-size="9" text-anchor="middle">:8093 SSE</text>
         </g>
 
-        <g id="node-corebank" data-node-id="corebank" data-node-label="Core Banking API" tabindex="0" role="button" aria-label="Focus Core Banking API, authorization step, then rules, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="authorization step, then rules" data-node-tag=":8090" data-node-context="Architecture component">
-          <title>Core Banking API · authorization step, then rules · Architecture component · :8090</title>
-          <rect x="1100" y="240" width="200" height="88" rx="6" class="c-mask"/>
-          <rect x="1100" y="240" width="200" height="88" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(1106 246) scale(0.6875)">
+        <g id="node-corebank" data-node-id="corebank" data-node-label="core-banking-api" tabindex="0" role="button" aria-label="Focus core-banking-api, :8090, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel=":8090" data-node-tag="CustomerAuthorization" data-node-context="Architecture component">
+          <title>core-banking-api · :8090 · Architecture component · CustomerAuthorization</title>
+          <rect x="1175" y="320" width="160" height="64" rx="6" class="c-mask"/>
+          <rect x="1175" y="320" width="160" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(1181 326) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="1200" y="282" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Core Banking API</text>
-        <text data-detail="context" x="1200" y="298" class="t-muted" font-size="9" text-anchor="middle">authorization step, then rules</text>
-        <text data-detail="fine" x="1200" y="320" class="t-backend" font-size="7" text-anchor="middle">:8090</text>
+          <text data-node-label="" data-detail-anchor="" x="1255" y="350" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">core-banking-api</text>
+        <text data-detail="context" x="1255" y="366" class="t-muted" font-size="9" text-anchor="middle">:8090</text>
+        <text data-detail="fine" x="1255" y="376" class="t-backend" font-size="7" text-anchor="middle">CustomerAuthorization</text>
         </g>
 
-        <g id="node-store" data-node-id="store" data-node-label="CoreBankData" tabindex="0" role="button" aria-label="Focus CoreBankData, in-memory system of record, Architecture component" aria-pressed="false" data-node-kind="database" data-node-sublabel="in-memory system of record" data-node-context="Architecture component">
-          <title>CoreBankData · in-memory system of record · Architecture component</title>
-          <rect x="1100" y="388" width="200" height="88" rx="6" class="c-mask"/>
-          <rect x="1100" y="388" width="200" height="88" rx="6" class="c-database" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(1106 394) scale(0.6875)">
+        <g id="node-corebankData" data-node-id="corebankData" data-node-label="CoreBankData" tabindex="0" role="button" aria-label="Focus CoreBankData, in-memory store, Architecture component" aria-pressed="false" data-node-kind="database" data-node-sublabel="in-memory store" data-node-context="Architecture component">
+          <title>CoreBankData · in-memory store · Architecture component</title>
+          <rect x="1175" y="450" width="160" height="60" rx="6" class="c-mask"/>
+          <rect x="1175" y="450" width="160" height="60" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(1181 456) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="1200" y="430" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">CoreBankData</text>
-        <text data-detail="context" x="1200" y="446" class="t-muted" font-size="9" text-anchor="middle">in-memory system of record</text>
+          <text data-node-label="" data-detail-anchor="" x="1255" y="478" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">CoreBankData</text>
+        <text data-detail="context" x="1255" y="494" class="t-muted" font-size="9" text-anchor="middle">in-memory store</text>
         </g>
 
         <!-- Connection labels -->
-
-        <g data-detail="context" data-edge-from="coordinator" data-edge-to="llm" data-edge-label="chat + tool-calling loop" data-edge-key="1" data-edge-id="coordinator-llm">
-          <rect x="249.9" y="256" width="125.19999999999999" height="14" rx="3" class="c-mask"/>
-          <text x="312.5" y="266" class="t-muted" font-size="8" text-anchor="middle">chat + tool-calling loop</text>
+        <g data-detail="context" data-edge-from="browser" data-edge-to="auth" data-edge-label="POST /login" data-edge-key="0" data-edge-id="login">
+          <rect x="178.6" y="332" width="62.8" height="14" rx="3" class="c-mask"/>
+          <text x="210" y="342" class="t-security" font-size="8" text-anchor="middle">POST /login</text>
         </g>
-        <g data-detail="context" data-edge-from="coordinator" data-edge-to="accounts_agent" data-edge-label="delegates to" data-edge-key="2" data-edge-id="delegate-accounts">
-          <rect x="428.7" y="230.5" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="462.5" y="240.5" class="t-muted" font-size="8" text-anchor="middle">delegates to</text>
+        <g data-detail="context" data-edge-from="auth" data-edge-to="ava" data-edge-label="session + X-XSRF-TOKEN" data-edge-key="1" data-edge-id="auth-to-ava">
+          <rect x="382.2" y="306" width="115.6" height="14" rx="3" class="c-mask"/>
+          <text x="440" y="316" class="t-backend" font-size="8" text-anchor="middle">session + X-XSRF-TOKEN</text>
+        </g>
+        <g data-detail="context" data-edge-from="ava" data-edge-to="accountsAgent" data-edge-label="in-proc tool" data-edge-key="2" data-edge-id="ava-to-accounts">
+          <rect x="591.7" y="276" width="67.6" height="14" rx="3" class="c-mask"/>
+          <text x="625.5" y="286" class="t-muted" font-size="8" text-anchor="middle">in-proc tool</text>
+        </g>
+        <g data-detail="context" data-edge-from="ava" data-edge-to="transactionAgent" data-edge-label="in-proc tool" data-edge-key="3" data-edge-id="ava-to-transaction">
+          <rect x="630.2" y="306" width="67.6" height="14" rx="3" class="c-mask"/>
+          <text x="664" y="316" class="t-muted" font-size="8" text-anchor="middle">in-proc tool</text>
+        </g>
+        <g data-detail="context" data-edge-from="ava" data-edge-to="serviceAgent" data-edge-label="in-proc tool" data-edge-key="4" data-edge-id="ava-to-service">
+          <rect x="591.7" y="388" width="67.6" height="14" rx="3" class="c-mask"/>
+          <text x="625.5" y="398" class="t-muted" font-size="8" text-anchor="middle">in-proc tool</text>
+        </g>
+        <g data-detail="context" data-edge-from="accountsAgent" data-edge-to="accountsMcp" data-edge-label="MCP / SSE" data-edge-key="5" data-edge-id="accounts-to-mcp">
+          <rect x="878.4" y="200" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+          <text x="905" y="210" class="t-muted" font-size="8" text-anchor="middle">MCP / SSE</text>
+        </g>
+        <g data-detail="context" data-edge-from="transactionAgent" data-edge-to="transactionMcp" data-edge-label="MCP / SSE" data-edge-key="6" data-edge-id="transaction-to-mcp">
+          <rect x="878.4" y="330" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+          <text x="905" y="340" class="t-muted" font-size="8" text-anchor="middle">MCP / SSE</text>
+        </g>
+        <g data-detail="context" data-edge-from="serviceAgent" data-edge-to="serviceMcp" data-edge-label="MCP / SSE" data-edge-key="7" data-edge-id="service-to-mcp">
+          <rect x="878.4" y="460" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+          <text x="905" y="470" class="t-muted" font-size="8" text-anchor="middle">MCP / SSE</text>
+        </g>
+        <g data-detail="context" data-edge-from="accountsMcp" data-edge-to="corebank" data-edge-label="HTTP, X-Customer-Id" data-edge-key="8" data-edge-id="accounts-mcp-to-corebank">
+          <rect x="1204.4" y="250" width="101.2" height="14" rx="3" class="c-mask"/>
+          <text x="1255" y="260" class="t-muted" font-size="8" text-anchor="middle">HTTP, X-Customer-Id</text>
+        </g>
+        <g data-detail="context" data-edge-from="transactionMcp" data-edge-to="corebank" data-edge-label="HTTP, X-Customer-Id" data-edge-key="9" data-edge-id="transaction-mcp-to-corebank">
+          <rect x="1078.4" y="306" width="101.2" height="14" rx="3" class="c-mask"/>
+          <text x="1129" y="316" class="t-muted" font-size="8" text-anchor="middle">HTTP, X-Customer-Id</text>
+        </g>
+        <g data-detail="context" data-edge-from="serviceMcp" data-edge-to="corebank" data-edge-label="HTTP, X-Customer-Id" data-edge-key="10" data-edge-id="service-mcp-to-corebank">
+          <rect x="1078.4" y="424" width="101.2" height="14" rx="3" class="c-mask"/>
+          <text x="1129" y="434" class="t-muted" font-size="8" text-anchor="middle">HTTP, X-Customer-Id</text>
         </g>
 
-
-        <g data-detail="context" data-edge-from="accounts_agent" data-edge-to="accounts_mcp" data-edge-label="MCP over SSE" data-edge-key="5" data-edge-id="accounts-mcp-call">
-          <rect x="708.7" y="173" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="742.5" y="183" class="t-muted" font-size="8" text-anchor="middle">MCP over SSE</text>
-        </g>
-
-
-        <g data-detail="context" data-edge-from="accounts_mcp" data-edge-to="corebank" data-edge-label="HTTP" data-edge-key="8" data-edge-id="accounts-http">
-          <rect x="1045" y="211" width="30" height="14" rx="3" class="c-mask"/>
-          <text x="1060" y="221" class="t-muted" font-size="8" text-anchor="middle">HTTP</text>
-        </g>
-
-
-        <g data-detail="context" data-edge-from="corebank" data-edge-to="store" data-edge-label="read / write" data-edge-key="11" data-edge-id="corebank-store">
-          <rect x="1166.2" y="328" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="1200" y="338" class="t-muted" font-size="8" text-anchor="middle">read / write</text>
-        </g>
 
         <!-- Boundary labels (foreground masks keep routes out of titles) -->
-        <g data-graph-role="structural-frame-label" data-composition-frame-id="0" data-composition-frame-kind="region" data-composition-frame-label="bot process :8080">
-          <rect data-graph-role="structural-frame-label-mask" x="184" y="142" width="101.8" height="16" rx="3" class="c-mask"/>
-          <text data-boundary-label="" x="188" y="155" class="t-cloud" font-size="9" font-weight="600">bot process :8080</text>
-        </g>
-
-        <g data-graph-role="structural-frame-label" data-composition-frame-id="1" data-composition-frame-kind="region" data-composition-frame-label="MCP servers · SSE">
-          <rect data-graph-role="structural-frame-label-mask" x="769" y="138" width="101.8" height="16" rx="3" class="c-mask"/>
-          <text data-boundary-label="" x="773" y="151" class="t-cloud" font-size="9" font-weight="600">MCP servers · SSE</text>
+        <g data-graph-role="structural-frame-label" data-composition-frame-id="0" data-composition-frame-kind="security-group" data-composition-frame-label="bot :8080">
+          <rect data-graph-role="structural-frame-label-mask" x="224" y="300" width="58.6" height="16" rx="3" class="c-mask"/>
+          <text data-boundary-label="" x="228" y="313" class="t-security" font-size="9" font-weight="600">bot :8080</text>
         </g>
 
         <!-- Legend -->
-
+        <g data-legend="" data-legend-bridge="">
+          <text x="40" y="542" class="t-primary" font-size="12" font-weight="650">Legend</text>
+          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="Backend" data-legend-x="40" data-legend-baseline="562" data-legend-width="78">
+            <rect x="40" y="553" width="16" height="10" rx="2.5" class="c-backend" stroke-width="1"/>
+            <text x="62" y="562" class="t-muted" font-size="10" font-weight="500">Backend</text>
+          </g>
+          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="Database" data-legend-x="140" data-legend-baseline="562" data-legend-width="83">
+            <rect x="140" y="553" width="16" height="10" rx="2.5" class="c-database" stroke-width="1"/>
+            <text x="162" y="562" class="t-muted" font-size="10" font-weight="500">Database</text>
+          </g>
+          <g data-legend-semantic-kind="security" data-legend-kind="security" data-legend-label="Security" data-legend-x="245" data-legend-baseline="562" data-legend-width="83">
+            <rect x="245" y="553" width="16" height="10" rx="2.5" class="c-security" stroke-width="1"/>
+            <text x="267" y="562" class="t-muted" font-size="10" font-weight="500">Security</text>
+          </g>
+          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="External" data-legend-x="350" data-legend-baseline="562" data-legend-width="83">
+            <rect x="350" y="553" width="16" height="10" rx="2.5" class="c-external" stroke-width="1"/>
+            <text x="372" y="562" class="t-muted" font-size="10" font-weight="500">External</text>
+          </g>
+        </g>
       </svg>
       <p class="intent-trace-status no-print" id="intent-trace-status" role="status" aria-live="polite" aria-atomic="true"></p>
       <div class="share-chapter-cue no-print" id="share-chapter-cue" hidden role="status" aria-live="polite">
@@ -5538,37 +5561,34 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     <div class="cards">
       <div class="card">
         <div class="card-header">
-          <div class="card-dot cyan"></div>
-          <h3>bot process (:8080)</h3>
+          <div class="card-dot rose"></div>
+          <h3>Session hardening (new)</h3>
         </div>
         <ul>
-          <li>&bull; ChatController POST /api/chat — customerId or DEMO_CUSTOMER_ID fallback</li>
-          <li>&bull; CoordinatorAgent “Ava”: system prompt + per-conversation chat memory</li>
-          <li>&bull; 3 in-process specialist tools; each runs its own tool loop vs the shared ChatClient → OpenRouter</li>
+          <li>&bull; Login — 3 seeded demo customers; customerId comes only from the session principal, never the request body</li>
+          <li>&bull; /api/** returns 401 when unauthenticated; per-IP rate limit returns 429 once the budget (20/min default) is spent</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot slate"></div>
+          <h3>Observability (updated)</h3>
+        </div>
+        <ul>
+          <li>&bull; Each specialist logs its delegated request with PII redacted first — emails, UK postcodes, long digit runs</li>
+          <li>&bull; Every agent still logs its own token usage</li>
         </ul>
       </div>
 
       <div class="card">
         <div class="card-header">
           <div class="card-dot emerald"></div>
-          <h3>MCP tier (SSE)</h3>
+          <h3>Authorization (unchanged since iteration 5)</h3>
         </div>
         <ul>
-          <li>&bull; One McpSyncClient per specialist (McpBackend, lazy); MCP client auto-config off</li>
-          <li>&bull; accounts :8091 · transaction :8092 · service :8093</li>
-          <li>&bull; service: change_of_address, cheque_book_request, kyc_update, increase_credit_limit</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-dot rose"></div>
-          <h3>Authorization in Java</h3>
-        </div>
-        <ul>
-          <li>&bull; CustomerScopedToolCallback pins the authenticated customerId on every MCP call</li>
-          <li>&bull; core-banking-api runs CustomerAuthorization.require first in every endpoint (X-Customer-Id over HTTP)</li>
-          <li>&bull; Tier gates: cheque book = Premium+Privileged, credit-limit increase = Privileged; block = 403 CAPABILITY_NOT_PERMITTED</li>
+          <li>&bull; CustomerAuthorization.require(customerId, capability) is the first line of every capability-bearing endpoint</li>
+          <li>&bull; Tier policy: cheque-book request needs Premium or Privileged; credit-limit increase needs Privileged</li>
         </ul>
       </div>
     </div>

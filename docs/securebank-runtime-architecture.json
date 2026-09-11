@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "SecureBank Support Bot — Runtime Architecture",
+    "output": "securebank-runtime-architecture.html",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "signed-in-path", "label": "Signed-in chat request", "focus": ["browser", "auth", "ava", "accountsAgent", "accountsMcp", "corebank", "corebankData"], "note": "A session-authenticated, rate-limited request from browser to store." },
+      { "id": "delegation", "label": "Coordinator delegation", "focus": ["ava", "accountsAgent", "transactionAgent", "serviceAgent"], "note": "Ava delegates to exactly one specialist per task, in-process." },
+      { "id": "hardening", "label": "Post-iteration-5 hardening", "focus": ["browser", "auth", "ava", "corebank"], "note": "Session login, per-IP rate limiting, and PII-redacted logging added after iteration 5." }
+    ]
+  },
+  "components": [
+    { "id": "browser", "type": "external", "label": "Browser", "sublabel": "Chat UI", "pos": [40, 320], "size": [130, 64] },
+    { "id": "auth", "type": "security", "label": "Spring Security", "sublabel": "session + CSRF login", "tag": "3 demo customers", "pos": [250, 320], "size": [150, 64] },
+    { "id": "ava", "type": "backend", "label": "CoordinatorAgent \"Ava\"", "sublabel": "bot :8080", "tag": "rate-limited: 429", "pos": [480, 320], "size": [160, 64] },
+    { "id": "accountsAgent", "type": "backend", "label": "AccountsAgent", "sublabel": "MCP client", "pos": [715, 190], "size": [150, 60] },
+    { "id": "transactionAgent", "type": "backend", "label": "TransactionAgent", "sublabel": "MCP client", "pos": [715, 320], "size": [150, 60] },
+    { "id": "serviceAgent", "type": "backend", "label": "ServiceAgent", "sublabel": "MCP client", "pos": [715, 450], "size": [150, 60] },
+    { "id": "accountsMcp", "type": "backend", "label": "accounts-mcp-server", "sublabel": ":8091 SSE", "pos": [945, 190], "size": [160, 60] },
+    { "id": "transactionMcp", "type": "backend", "label": "transaction-mcp-server", "sublabel": ":8092 SSE", "pos": [945, 320], "size": [160, 60] },
+    { "id": "serviceMcp", "type": "backend", "label": "service-mcp-server", "sublabel": ":8093 SSE", "pos": [945, 450], "size": [160, 60] },
+    { "id": "corebank", "type": "backend", "label": "core-banking-api", "sublabel": ":8090", "tag": "CustomerAuthorization", "pos": [1175, 320], "size": [160, 64] },
+    { "id": "corebankData", "type": "database", "label": "CoreBankData", "sublabel": "in-memory store", "pos": [1175, 450], "size": [160, 60] }
+  ],
+  "boundaries": [
+    { "kind": "security-group", "label": "bot :8080", "wraps": ["auth", "ava"] }
+  ],
+  "connections": [
+    { "id": "login", "from": "browser", "to": "auth", "label": "POST /login", "variant": "security" },
+    { "id": "auth-to-ava", "from": "auth", "to": "ava", "label": "session + X-XSRF-TOKEN", "variant": "emphasis", "labelDy": -26 },
+    { "id": "ava-to-accounts", "from": "ava", "to": "accountsAgent", "label": "in-proc tool", "fromSide": "top", "toSide": "left" },
+    { "id": "ava-to-transaction", "from": "ava", "to": "transactionAgent", "label": "in-proc tool", "fromSide": "right", "toSide": "left", "labelDy": -34 },
+    { "id": "ava-to-service", "from": "ava", "to": "serviceAgent", "label": "in-proc tool", "fromSide": "bottom", "toSide": "left" },
+    { "id": "accounts-to-mcp", "from": "accountsAgent", "to": "accountsMcp", "label": "MCP / SSE" },
+    { "id": "transaction-to-mcp", "from": "transactionAgent", "to": "transactionMcp", "label": "MCP / SSE" },
+    { "id": "service-to-mcp", "from": "serviceAgent", "to": "serviceMcp", "label": "MCP / SSE" },
+    { "id": "accounts-mcp-to-corebank", "from": "accountsMcp", "to": "corebank", "label": "HTTP, X-Customer-Id", "fromSide": "right", "toSide": "top" },
+    { "id": "transaction-mcp-to-corebank", "from": "transactionMcp", "to": "corebank", "label": "HTTP, X-Customer-Id", "fromSide": "right", "toSide": "left", "labelDy": -33 },
+    { "id": "service-mcp-to-corebank", "from": "serviceMcp", "to": "corebank", "label": "HTTP, X-Customer-Id", "fromSide": "right", "toSide": "bottom" },
+    { "id": "corebank-to-data", "from": "corebank", "to": "corebankData" }
+  ],
+  "cards": [
+    { "dot": "rose", "title": "Session hardening (new)", "items": ["Login — 3 seeded demo customers; customerId comes only from the session principal, never the request body", "/api/** returns 401 when unauthenticated; per-IP rate limit returns 429 once the budget (20/min default) is spent"] },
+    { "dot": "slate", "title": "Observability (updated)", "items": ["Each specialist logs its delegated request with PII redacted first — emails, UK postcodes, long digit runs", "Every agent still logs its own token usage"] },
+    { "dot": "emerald", "title": "Authorization (unchanged since iteration 5)", "items": ["CustomerAuthorization.require(customerId, capability) is the first line of every capability-bearing endpoint", "Tier policy: cheque-book request needs Premium or Privileged; credit-limit increase needs Privileged"] }
+  ]
+}

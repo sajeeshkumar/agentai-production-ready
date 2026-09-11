@@ -82,6 +82,24 @@ datastore, and durable memory are still later iterations.
 | `CUST-1002` Tom Baker | **Premium** | `ACC-1002-001` current (active, £500 credit limit) |
 | `CUST-1003` Dan Shaw | **Standard** | `ACC-1003-001` current (**dormant**) |
 
+### Signing in
+
+Every demo customer above is also a login — session-based (Spring Security), email as
+username, and every demo account shares the one demo-only password below. Logging in is
+what fixes which customer the bot acts for; nothing in the chat UI or the request body
+can act for a different customer than the one you signed in as (see `SecurityConfig`).
+
+| Username | Password |
+|---|---|
+| `priya.nair@example.com` | `SecureBank-Demo1` |
+| `tom.baker@example.com` | `SecureBank-Demo1` |
+| `dan.shaw@example.com` | `SecureBank-Demo1` |
+
+This is a demo login only — an in-memory `UserDetailsService` seeded at startup, not
+backed by anything resembling production credential storage. Swapping in a real
+identity provider is the only change a later iteration needs; everything downstream
+already trusts `customerId` exactly the way it does today.
+
 ## Prerequisites
 
 - Java 25
@@ -142,8 +160,8 @@ Or by hand:
 ./mvnw -q -pl bot                   spring-boot:run  # :8080
 ```
 
-Then open <http://localhost:8080>. The chat UI has a demo customer selector in the
-header; switching it starts a fresh conversation.
+Then open <http://localhost:8080> and sign in as one of the [demo customers](#signing-in)
+above — Spring Security's login page comes up automatically.
 
 Example (signed in as Dan Shaw — Standard tier):
 
@@ -159,18 +177,34 @@ Ava: Cheque books are available to Premium and Privileged customers only, and
 
 ## API
 
+Everything under `/api/**` requires an authenticated session (see
+[Signing in](#signing-in)) — `POST /login` first, then send the session cookie plus the
+CSRF token as an `X-XSRF-TOKEN` header (read it back out of the readable `XSRF-TOKEN`
+cookie Spring Security issues; `bot/resources/static/index.html`'s script does exactly
+this). No request carries a `customerId` — there is nowhere to put one; which customer
+the agent acts for comes only from who's signed in.
+
 ### `POST /api/chat`
 
 ```jsonc
-// request  — omit conversationId on the first turn; customerId is the signed-in customer
-{ "conversationId": "…optional…", "customerId": "CUST-1001", "message": "What's my balance?" }
+// request — omit conversationId on the first turn
+{ "conversationId": "…optional…", "message": "What's my balance?" }
 
 // response — send conversationId back on the next turn to keep context
 { "conversationId": "3f1c…", "reply": "Your Everyday Current balance is £2,450.75." }
 ```
 
-A blank `message` returns `400`. A missing/blank `customerId` falls back to the demo
-customer `CUST-1001`.
+A blank `message` returns `400`. No session returns `401` (not a login-page redirect —
+this path is for `fetch()`, not browser navigation). Over the per-IP rate limit (default
+20/minute, `CHAT_RATE_LIMIT_MAX_REQUESTS`/`CHAT_RATE_LIMIT_WINDOW`) returns `429`.
+
+### `GET /api/chat/me`
+
+```jsonc
+{ "customerId": "CUST-1001", "username": "priya.nair@example.com" }
+```
+
+The signed-in customer, for the chat UI's header.
 
 ### MCP servers — `GET /sse` (+ `POST /mcp/message`)
 
@@ -218,7 +252,7 @@ expired (`422`).
 ## Tests
 
 ```bash
-./mvnw test    # 36 tests across the modules, no network, no LLM
+./mvnw test    # 49 tests across the modules, no network, no LLM
 ```
 
 - `banking-commons/CoreBankClientTest` — `MockRestServiceServer`: the client sends
@@ -229,12 +263,36 @@ expired (`422`).
   credit-limit rules, entitlements, plus all the field/date/eligibility validation.
 - `bot/CustomerSupportBotApplicationTests` — Spring context loads (no network); the MCP
   connections are lazy, so no MCP server need be running.
-- `bot/ChatControllerTest` — web layer with a mocked `CoordinatorAgent`: conversation-id
-  and customer-id handling, blank-message rejection.
+- `bot/ChatControllerTest` — web layer with the real `SecurityConfig` imported (so the
+  auth/CSRF behaviour under test is what actually runs) and a mocked `CoordinatorAgent`:
+  the agent is always called with the *signed-in* customer regardless of the request
+  body, unauthenticated calls get `401` not a login redirect, a missing CSRF token gets
+  `403`, blank messages and rate-limit overflow are rejected.
+- `bot/RateLimiterTest` — the per-key fixed-window limiter, with a fake clock (no real
+  sleeping): per-key budget, window rollover, independent keys.
+- `bot/PiiRedactionTest` — the free-text redaction applied before a specialist agent logs
+  its delegated request (emails, UK postcodes, long digit runs).
 
 The specialist agents' MCP plumbing and the MCP servers' tool methods are exercised by
 running the system (`./run-all.sh`), not unit-tested — consistent with not unit-testing
 the agents' LLM calls.
+
+### Evals
+
+`bot/eval/CoordinatorAgentEvalTest` checks the behaviour the system prompts promise
+against the **real** LLM and the real MCP/Core-Banking stack — tier declines are relayed
+truthfully rather than faked, balances are quoted not invented, money can't be moved, and
+a prompt-injection attempt can't talk the tier gate open. It's excluded from `./mvnw
+test` (no LLM/network in the default suite) and runs only via the `eval` profile:
+
+```bash
+./run-all.sh
+export OPENAI_API_KEY=sk-or-...
+./mvnw -pl bot test -Peval
+```
+
+Without `OPENAI_API_KEY` set, or with the backend stack not running, the suite skips
+itself (not a failure) with a message saying which.
 
 ## Core principles (inherited — see `CLAUDE.md`)
 

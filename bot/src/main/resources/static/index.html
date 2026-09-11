@@ -48,12 +48,15 @@
       font-size: 13px;
       color: var(--muted);
     }
-    .who select {
-      padding: 4px 8px;
+    .who button {
+      padding: 3px 10px;
       border: 1px solid var(--border);
       border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
       font: inherit;
-      font-size: 13px;
+      font-size: 12px;
+      cursor: pointer;
     }
     .messages {
       flex: 1;
@@ -101,12 +104,8 @@
       <h1>SecureBank Support</h1>
       <p>Ask about your balance, a transaction, a statement, your address, a cheque book, KYC, or a credit-limit increase.</p>
       <div class="who">
-        <label for="customer">Signed in as</label>
-        <select id="customer">
-          <option value="CUST-1001">Priya Nair — Privileged (2 accounts)</option>
-          <option value="CUST-1002">Tom Baker — Premium</option>
-          <option value="CUST-1003">Dan Shaw — Standard (dormant account)</option>
-        </select>
+        <span id="whoami">Signed in…</span>
+        <button id="signOut" type="button">Sign out</button>
       </div>
     </header>
     <div class="messages" id="messages">
@@ -123,13 +122,27 @@
     const form = document.getElementById('form');
     const input = document.getElementById('input');
     const sendBtn = document.getElementById('send');
-    const customerEl = document.getElementById('customer');
+    const whoamiEl = document.getElementById('whoami');
+    const signOutBtn = document.getElementById('signOut');
     let conversationId = null;
 
-    // Switching customer starts a fresh conversation so context never crosses customers.
-    customerEl.addEventListener('change', () => {
-      conversationId = null;
-      addMessage('Now signed in as ' + customerEl.options[customerEl.selectedIndex].text + '. New conversation.', 'error');
+    // Read back the XSRF-TOKEN cookie Spring Security issues on the session, so state-changing
+    // fetch() calls can echo it as a header — the standard pattern for a same-origin page with
+    // no server-side templating to embed the token in directly.
+    function csrfToken() {
+      const match = document.cookie.match(/(?:^|; )XSRF-TOKEN=([^;]*)/);
+      return match ? decodeURIComponent(match[1]) : '';
+    }
+
+    fetch('/api/chat/me').then(res => res.json()).then(me => {
+      whoamiEl.textContent = 'Signed in as ' + me.username;
+    }).catch(() => {
+      whoamiEl.textContent = 'Signed in';
+    });
+
+    signOutBtn.addEventListener('click', async () => {
+      await fetch('/logout', { method: 'POST', headers: { 'X-XSRF-TOKEN': csrfToken() } });
+      window.location.reload();
     });
 
     function addMessage(text, cls) {
@@ -155,8 +168,8 @@
       try {
         const res = await fetch('/api/chat', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ conversationId, customerId: customerEl.value, message })
+          headers: { 'Content-Type': 'application/json', 'X-XSRF-TOKEN': csrfToken() },
+          body: JSON.stringify({ conversationId, message })
         });
         typing.remove();
         if (!res.ok) throw new Error('Request failed (' + res.status + ')');
